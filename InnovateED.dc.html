@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <script src="./image-slot.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500..800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { margin: 0; }
+    a { color: #6d28d9; text-decoration: none; }
+    a:hover { color: #4c1d95; }
+    ::selection { background: #ede9fe; }
+    button, [role=button], [onclick], input, select, textarea { }
+    :focus-visible { outline: 2px solid #7c3aed; outline-offset: 2px; }
+  </style>
+</helmet>
+<div style="font-family: 'Inter', system-ui, -apple-system, sans-serif; color: #241b3a; background: #ffffff; min-height: 100vh; display: flex; flex-direction: column;">
+
+  <!-- NAV -->
+  <header style="position: sticky; top: 0; z-index: 50; background: #ffffff; border-bottom: 1px solid #ece6fb; display: flex; align-items: center; justify-content: space-between; padding: 18px 48px;">
+    <div style="display: flex; align-items: center; gap: 10px; cursor: pointer; order: 2;" onClick="{{ goHome }}">
+      <img src="assets/innovated-icon-transparent-v2.png" alt="InnovateED" style="height: 44px; width: auto; display: block;">
+    </div>
+    <nav style="display: flex; align-items: center; gap: 32px; order: 1;" onMouseLeave="{{ clearHoverNav }}">
+      <sc-for list="{{ navItems }}" as="item" hint-placeholder-count="5">
+        <div tabindex="0" style="font-size: 15px; font-weight: 600; cursor: pointer; padding: 10px 2px; border-bottom: 2px solid transparent; color: #4b3a70;" style-hover="color: #5b21b6;" onClick="{{ item.onClick }}" onMouseEnter="{{ item.onMouseEnter }}">{{ item.label }}</div>
+      </sc-for>
+      <div tabindex="0" style="background: #6d28d9; color: #fff; font-weight: 700; font-size: 14px; padding: 12px 22px; border-radius: 8px; cursor: pointer;" style-hover="background: #5b21b6;" onClick="{{ goContact }}">Get Involved</div>
+    </nav>
+  </header>
+
+  <sc-if value="{{ activePreview }}">
+    <div onMouseLeave="{{ clearHoverNav }}" style="position: fixed; top: 80px; left: 0; right: 0; background: #ffffff; border-bottom: 1px solid #ece6fb; box-shadow: 0 24px 40px -30px rgba(46,16,101,0.25); z-index: 49; padding: 28px 48px;">
+      <div style="max-width: 1200px; margin: 0 auto; display: flex; align-items: center; gap: 28px;">
+        <div style="font-size: 20px; font-weight: 800; color: #2e1065; white-space: nowrap;">{{ activePreview.previewTitle }}</div>
+        <div style="width: 1px; align-self: stretch; background: #ece6fb;"></div>
+        <div style="font-size: 15px; color: #6b5c8a; line-height: 1.5;">{{ activePreview.previewDesc }}</div>
+      </div>
+    </div>
+  </sc-if>
+
+  <main style="flex: 1;">
+
+    <!-- HOME -->
+    <sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
+      <section data-screen-label="Home Hero" style="background: radial-gradient(120% 140% at 15% 0%, #f4effc 0%, #ffffff 55%); padding: 96px 48px 100px; display: flex; align-items: center; gap: 64px;">
+        <div style="flex: 1; max-width: 620px;">
+          <div style="color: #7c3aed; font-weight: 700; font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 20px;">Nonprofit · IP &amp; Patent Education</div>
+          <h1 style="font-family: 'Fraunces', serif; font-size: 56px; line-height: 1.08; font-weight: 600; letter-spacing: -0.01em; margin: 0 0 24px; color: #241b3a;">Where young minds meet big ideas</h1>
+          <p style="font-size: 19px; line-height: 1.6; color: #564a72; margin: 0 0 36px;">InnovateED teaches middle school and high school students how intellectual property and patent law works — so tomorrow's inventors know how to protect what they create.</p>
+          <div style="display: flex; gap: 16px;">
+            <div tabindex="0" style="background: #6d28d9; color: #fff; font-weight: 600; font-size: 16px; padding: 15px 30px; border-radius: 8px; cursor: pointer;" style-hover="background: #5b21b6;" onClick="{{ goContact }}">Join the Program</div>
+            <div tabindex="0" style="background: #fff; color: #5b21b6; border: 1px solid #ddd0f7; font-weight: 600; font-size: 16px; padding: 14px 28px; border-radius: 8px; cursor: pointer;" style-hover="border-color: #a78bfa;" onClick="{{ goPrograms }}">See Our Programs</div>
+          </div>
+        </div>
+        <div style="flex: 1; max-width: 460px; display: flex; align-items: center; justify-content: flex-end;">
+          <img src="assets/innovated-lockup-transparent-v2.png" alt="InnovateED" style="width: 100%; height: auto; display: block;">
+        </div>
+      </section>
+
+      <section style="padding: 56px 48px; border-top: 1px solid #f1ecfb; border-bottom: 1px solid #f1ecfb; display: flex; justify-content: center; gap: 80px;">
+        <sc-for list="{{ stats }}" as="s" hint-placeholder-count="3">
+          <div style="text-align: center;">
+            
+            <div style="font-size: 42px; font-weight: 800; color: #5b21b6;">{{ s.value }}</div><div style="font-size: 15px; color: #6b5c8a; font-weight: 600; margin-top: 4px;">{{ s.label }}</div>
+          </div>
+        </sc-for>
+      </section>
+
+      <section style="padding: 100px 48px; max-width: 1200px; margin: 0 auto;">
+        <div style="text-align: center; max-width: 640px; margin: 0 auto 64px;">
+          <div style="color: #7c3aed; font-weight: 700; font-size: 14px; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 12px;">Our Mission</div>
+          <h2 style="font-family: 'Fraunces', serif; font-size: 38px; font-weight: 600; letter-spacing: -0.01em; margin: 0 0 18px; color: #241b3a;">Demystifying patents, trademarks, and copyright for the next generation</h2>
+          <p style="font-size: 17px; color: #564a72; line-height: 1.7; margin: 0;">Most students never encounter intellectual property law until it's too late to matter. We bring it into the online classroom early, through hands-on workshops, mentorship, and free curriculum.</p>
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px;">
+          <sc-for list="{{ pillars }}" as="p" hint-placeholder-count="3">
+            <div style="background: #faf8ff; border: 1px solid #ece4fb; border-radius: 12px; padding: 32px;">
+              <div style="font-family: 'Fraunces', serif; font-size: 24px; font-weight: 600; color: #a78bfa; margin-bottom: 20px;">{{ p.icon }}</div>
+              <div style="font-size: 19px; font-weight: 700; margin-bottom: 10px; color: #2e1065;">{{ p.title }}</div>
+              <div style="font-size: 15px; color: #6b5c8a; line-height: 1.6;">{{ p.desc }}</div>
+            </div>
+          </sc-for>
+        </div>
+      </section>
+
+      <section style="background: #2e1065; padding: 80px 48px; display: flex; align-items: center; justify-content: space-between; gap: 40px;">
+        <div style="max-width: 560px;">
+          <h2 style="font-family: 'Fraunces', serif; font-size: 32px; font-weight: 600; color: #fff; margin: 0 0 14px; letter-spacing: -0.01em;">Ready to bring IP education to your school?</h2>
+          <p style="font-size: 16px; color: #ded4f8; line-height: 1.6; margin: 0;">We partner with teachers, clubs, and districts to run workshops — free of charge.</p>
+        </div>
+        <div tabindex="0" style="background: #fff; color: #5b21b6; font-weight: 600; font-size: 16px; padding: 16px 34px; border-radius: 8px; cursor: pointer; white-space: nowrap;" style-hover="background: #f4effc;" onClick="{{ goContact }}">Get in Touch</div>
+      </section>
+    </sc-if>
+
+    <!-- ABOUT -->
+    <sc-if value="{{ isAbout }}">
+      <section style="padding: 88px 48px 40px; max-width: 900px; margin: 0 auto; text-align: center;">
+        <div style="color: #7c3aed; font-weight: 700; font-size: 14px; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 12px;">About InnovateED</div>
+        <h1 style="font-family: 'Fraunces', serif; font-size: 46px; font-weight: 600; letter-spacing: -0.01em; margin: 0 0 20px; color: #241b3a;">Built by students, for students</h1>
+        <p style="font-size: 18px; color: #564a72; line-height: 1.7;">InnovateED started as a single high school club project on invention rights. Today we're a nonprofit reaching classrooms across the country, teaching the fundamentals of patents, trademarks, and copyright before students ever file their first application.</p>
+      </section>
+
+      <section style="padding: 56px 48px 100px; max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center;">
+        <div style="width:100%; aspect-ratio: 4/3; display: flex; align-items: center; justify-content: center; background: #faf8ff; border-radius: 20px;">
+          <img src="assets/innovated-lockup-transparent-v2.png" alt="InnovateED" style="width: 70%; height: auto; display: block;">
+        </div>
+        <div>
+          <h2 style="font-family: 'Fraunces', serif; font-size: 28px; font-weight: 600; margin: 0 0 16px; color: #2e1065;">Our story</h2>
+          <p style="font-size: 16px; color: #564a72; line-height: 1.75; margin: 0 0 16px;">We saw student inventors lose credit for their own ideas simply because no one taught them how IP works. So we built the curriculum we wished we'd had — approachable, practical, and free.</p>
+          <p style="font-size: 16px; color: #564a72; line-height: 1.75; margin: 0;">Since then we've run multiple workshops, mentored student inventors, and partnered with local professors and attorneys to bring more patent law and Intellectual Property education to the classroom.</p>
+        </div>
+      </section>
+
+      <section style="background: #faf8ff; padding: 90px 48px; border-top: 1px solid #ece4fb;">
+        <h2 style="text-align: center; font-family: 'Fraunces', serif; font-size: 34px; font-weight: 600; margin: 0 0 48px; color: #241b3a;">Our Team</h2>
+        <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 28px; max-width: 1300px; margin: 0 auto;">
+          <sc-for list="{{ team }}" as="t" hint-placeholder-count="5">
+            <div style="text-align: center;">
+              <image-slot id="{{ t.id }}" placeholder="{{ t.placeholder }}" shape="circle" style="width: 140px; height: 140px; margin: 0 auto 16px;"></image-slot>
+              <div style="font-weight: 700; font-size: 16px; color: #2e1065;">{{ t.name }}</div>
+              <div style="font-size: 14px; color: #7c3aed; font-weight: 600; margin-top: 2px;">{{ t.role }}</div>
+            </div>
+          </sc-for>
+        </div>
+      </section>
+    </sc-if>
+
+    <!-- PROGRAMS -->
+    <sc-if value="{{ isPrograms }}">
+      <section style="padding: 88px 48px 40px; max-width: 900px; margin: 0 auto; text-align: center;">
+        <div style="color: #7c3aed; font-weight: 700; font-size: 14px; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 12px;">Programs &amp; Workshops</div>
+        <h1 style="font-family: 'Fraunces', serif; font-size: 46px; font-weight: 600; letter-spacing: -0.01em; margin: 0 0 20px; color: #241b3a;">Curriculum for every classroom</h1>
+        <p style="font-size: 18px; color: #564a72; line-height: 1.7;">From a single-day workshop to a full semester elective, our programs meet students and teachers where they are.</p>
+      </section>
+
+      
+
+      <section style="padding: 40px 48px 90px; max-width: 900px; margin: 0 auto; display: grid; grid-template-columns: repeat(2, 1fr); gap: 26px;">
+        <sc-for list="{{ programs }}" as="p" hint-placeholder-count="2">
+          <div style="border: 1px solid #ece4fb; border-radius: 18px; padding: 32px; background: #fff;" style-hover="box-shadow: 0 20px 40px -24px rgba(91,33,182,0.3); border-color: #ddd0f7;">
+          <div style="display: inline-block; background: #ede4fd; color: #5b21b6; font-weight: 600; font-size: 12px; padding: 5px 12px; border-radius: 6px; margin-bottom: 18px;">{{ p.level }}</div>
+            <div style="font-size: 21px; font-weight: 800; margin-bottom: 12px; color: #2e1065;">{{ p.title }}</div>
+            <div style="font-size: 15px; color: #6b5c8a; line-height: 1.65; margin-bottom: 18px;">{{ p.desc }}</div>
+            <div style="font-size: 13px; font-weight: 700; color: #7c3aed;">{{ p.duration }}</div>
+          </div>
+        </sc-for>
+      </section><section style="background: #2e1065; padding: 90px 48px;">
+        <h2 style="text-align: center; font-family: 'Fraunces', serif; font-size: 34px; font-weight: 600; margin: 0 0 12px; color: #fff;">Upcoming Events</h2>
+        <p style="text-align: center; color: #cbb8f2; margin: 0 0 48px; font-size: 16px;">Free and open to students &amp; educators</p>
+        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; max-width: 800px; margin: 0 auto;">
+          <sc-for list="{{ events }}" as="e" hint-placeholder-count="2">
+            <div style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); border-radius: 16px; padding: 26px;">
+              <div style="font-size: 13px; font-weight: 700; color: #c4b5fd; letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 10px;">{{ e.date }}</div>
+              <div style="font-size: 18px; font-weight: 700; color: #fff; margin-bottom: 8px;">{{ e.title }}</div>
+              <div style="font-size: 14px; color: #cbb8f2; line-height: 1.6;">{{ e.desc }}</div>
+            </div>
+          </sc-for>
+        </div>
+      </section>
+    </sc-if>
+
+    <!-- RESOURCES -->
+    <sc-if value="{{ isResources }}">
+      <section style="padding: 88px 48px 40px; max-width: 900px; margin: 0 auto; text-align: center;">
+        <div style="color: #7c3aed; font-weight: 700; font-size: 14px; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 12px;">Student Resources</div>
+        <h1 style="font-family: 'Fraunces', serif; font-size: 46px; font-weight: 600; letter-spacing: -0.01em; margin: 0 0 20px; color: #241b3a;">Guides to get you started</h1>
+        <p style="font-size: 18px; color: #564a72; line-height: 1.7;">Free, plain-language guides on patents, trademarks, and copyright — written for students, not lawyers.</p>
+      </section>
+
+      <section style="padding: 40px 48px 100px; max-width: 1000px; margin: 0 auto; display: flex; flex-direction: column; gap: 16px;">
+        <sc-for list="{{ resources }}" as="r" hint-placeholder-count="5">
+          <div style="display: flex; align-items: center; gap: 22px; border: 1px solid #ece4fb; border-radius: 14px; padding: 22px 26px; background: #fff;" style-hover="border-color: #ddd0f7; background: #faf8ff;">
+            <div style="width: 46px; height: 46px; border-radius: 10px; background: #ede4fd; display: flex; align-items: center; justify-content: center; font-family: 'Fraunces', serif; font-size: 16px; font-weight: 600; color: #5b21b6; flex-shrink: 0;">{{ r.icon }}</div>
+            <div style="flex: 1;">
+              <div style="font-size: 17px; font-weight: 700; color: #2e1065; margin-bottom: 4px;">{{ r.title }}</div>
+              <div style="font-size: 14px; color: #6b5c8a; line-height: 1.5;">{{ r.desc }}</div>
+            </div>
+            <div style="font-size: 13px; font-weight: 700; color: #7c3aed; white-space: nowrap;">{{ r.tag }}</div>
+          </div>
+        </sc-for>
+      </section>
+    </sc-if>
+
+    <!-- NEWSLETTER -->
+    <sc-if value="{{ isNewsletter }}">
+      <section style="padding: 88px 48px 40px; max-width: 900px; margin: 0 auto; text-align: center;">
+        <div style="color: #7c3aed; font-weight: 700; font-size: 14px; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 12px;">Newsletter</div>
+        <h1 style="font-family: 'Fraunces', serif; font-size: 46px; font-weight: 600; letter-spacing: -0.01em; margin: 0 0 20px; color: #241b3a;">Weekly&nbsp;updates from InnovateED</h1>
+        <p style="font-size: 18px; color: #564a72; line-height: 1.7;">New posts every week — student spotlights, IP news for classrooms, and what's coming up in our programs.</p>
+      </section>
+
+      <section style="padding: 40px 48px 100px; max-width: 1000px; margin: 0 auto; display: flex; flex-direction: column; gap: 16px;">
+        <sc-for list="{{ newsletterPosts }}" as="p" hint-placeholder-count="4">
+          <div style="border: 1px solid #ece4fb; border-radius: 14px; padding: 26px 28px; background: #fff;" style-hover="border-color: #ddd0f7; background: #faf8ff;">
+            <div style="font-size: 13px; font-weight: 700; color: #7c3aed; margin-bottom: 8px;">{{ p.date }}</div>
+            <div style="font-size: 18px; font-weight: 700; color: #2e1065; margin-bottom: 6px;">{{ p.title }}</div>
+            <div style="font-size: 15px; color: #6b5c8a; line-height: 1.6;">{{ p.excerpt }}</div>
+          </div>
+        </sc-for>
+      </section>
+    </sc-if>
+
+    <!-- CONTACT -->
+    <sc-if value="{{ isContact }}">
+      <section style="padding: 88px 48px 100px; max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 64px;">
+        <div>
+          <div style="color: #7c3aed; font-weight: 700; font-size: 14px; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 12px;">Get Involved</div>
+          <h1 style="font-family: 'Fraunces', serif; font-size: 42px; font-weight: 600; letter-spacing: -0.01em; margin: 0 0 20px; color: #241b3a;">Volunteer, partner, bring us to your school, or start a new chapter</h1>
+          <p style="font-size: 17px; color: #564a72; line-height: 1.7; margin: 0 0 32px;">Whether you're an educator, a patent attorney, or a student who wants to help — we'd love to hear from you.</p>
+          <div style="display: flex; flex-direction: column; gap: 20px;">
+            <sc-for list="{{ contactWays }}" as="c" hint-placeholder-count="3">
+              <div style="display: flex; gap: 16px; align-items: flex-start;">
+                <div style="width: 40px; height: 40px; border-radius: 8px; background: #ede4fd; display: flex; align-items: center; justify-content: center; font-family: 'Fraunces', serif; font-size: 14px; font-weight: 600; color: #5b21b6; flex-shrink: 0;">{{ c.icon }}</div>
+                <div>
+                  <div style="font-weight: 700; color: #2e1065; font-size: 15px;">{{ c.label }}</div>
+                  <div style="color: #6b5c8a; font-size: 14px;">{{ c.value }}</div>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+        <div style="background: #faf8ff; border: 1px solid #ece4fb; border-radius: 20px; padding: 40px;">
+          <div style="font-family: 'Fraunces', serif; font-size: 20px; font-weight: 600; color: #2e1065; margin-bottom: 24px;">Send us a message</div>
+          <div style="display: flex; flex-direction: column; gap: 18px;">
+            <div>
+              <div style="font-size: 13px; font-weight: 700; color: #4b3a70; margin-bottom: 6px;">Name</div>
+              <input type="text" placeholder="Your name" style="width: 100%; box-sizing: border-box; border: 1px solid #ddd0f7; border-radius: 10px; padding: 12px 14px; font-size: 15px; font-family: inherit;">
+            </div>
+            <div>
+              <div style="font-size: 13px; font-weight: 700; color: #4b3a70; margin-bottom: 6px;">Email</div>
+              <input type="email" placeholder="you@school.edu" style="width: 100%; box-sizing: border-box; border: 1px solid #ddd0f7; border-radius: 10px; padding: 12px 14px; font-size: 15px; font-family: inherit;">
+            </div>
+            <div>
+              <div style="font-size: 13px; font-weight: 700; color: #4b3a70; margin-bottom: 6px;">I'm interested in</div>
+              <select style="width: 100%; box-sizing: border-box; border: 1px solid #ddd0f7; border-radius: 10px; padding: 12px 14px; font-size: 15px; font-family: inherit; background: #fff;">
+                <option>Volunteering</option>
+                <option>Bringing a workshop to my school</option>
+                <option>Starting a new chapter</option>
+                <option>Partnering as an organization</option>
+                <option>Donating</option>
+              </select>
+            </div>
+            <div>
+              <div style="font-size: 13px; font-weight: 700; color: #4b3a70; margin-bottom: 6px;">Message</div>
+              <textarea placeholder="Tell us a bit about your goals" rows="4" style="width: 100%; box-sizing: border-box; border: 1px solid #ddd0f7; border-radius: 10px; padding: 12px 14px; font-size: 15px; font-family: inherit; resize: vertical;"></textarea>
+            </div>
+            <div tabindex="0" style="background: #6d28d9; color: #fff; font-weight: 600; font-size: 16px; padding: 14px; border-radius: 8px; text-align: center; cursor: pointer; margin-top: 6px;" style-hover="background: #5b21b6;">Send Message</div>
+          </div>
+        </div>
+      </section>
+    </sc-if>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer style="background: #2e1065; padding: 56px 48px 32px; color: #cbb8f2;">
+    <div style="max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; gap: 48px; flex-wrap: wrap;">
+      <div style="max-width: 320px;">
+        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 14px;">
+          <img src="assets/innovated-icon-transparent-v2.png" alt="InnovateED" style="height: 38px; width: auto; display: block; filter: brightness(0) invert(1);">
+        </div>
+        <div style="font-size: 14px; line-height: 1.6;">A 501(c)(3) nonprofit teaching students the fundamentals of intellectual property and patent law.</div>
+      </div>
+      <div style="display: flex; gap: 64px; flex-wrap: wrap;">
+        <div>
+          <div style="font-weight: 700; color: #fff; font-size: 14px; margin-bottom: 14px;">Site</div>
+          <sc-for list="{{ navItems }}" as="item" hint-placeholder-count="5">
+            <div style="font-size: 14px; margin-bottom: 10px; cursor: pointer;" style-hover="color: #fff;" onClick="{{ item.onClick }}">{{ item.label }}</div>
+          </sc-for>
+        </div>
+        <div>
+          <div style="font-weight: 700; color: #fff; font-size: 14px; margin-bottom: 14px;">Contact</div>
+          <div style="font-size: 14px; margin-bottom: 10px;">hello@innovateed.org</div>
+          <div style="font-size: 14px;">(555) 019-2837</div>
+        </div>
+      </div>
+    </div>
+    <div style="max-width: 1200px; margin: 40px auto 0; padding-top: 24px; border-top: 1px solid rgba(255,255,255,0.12); font-size: 13px; text-align: center;">© 2026 InnovateED. All rights reserved.</div>
+  </footer>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;: {&quot;width&quot;: 1440, &quot;height&quot;: 1000}}">
+class Component extends DCLogic {
+  state = { page: 'home', hoverNav: null };
+
+  setPage = (p) => { this.setState({ page: p }); window.scrollTo(0, 0); };
+  clearHoverNav = () => this.setState({ hoverNav: null });
+
+  renderVals() {
+    const page = this.state.page;
+    const rawNav = [
+      { id: 'home', label: 'Home', previewTitle: 'Home', previewDesc: 'Our mission, the impact so far, and how to get involved.' },
+      { id: 'about', label: 'About', previewTitle: 'About', previewDesc: 'Our story and the team behind InnovateED.' },
+      { id: 'programs', label: 'Programs', previewTitle: 'Programs & Workshops', previewDesc: 'Curriculum for middle and high schoolers, plus upcoming events.' },
+      { id: 'resources', label: 'Resources', previewTitle: 'Student Resources', previewDesc: 'Free guides on patents, trademarks, and copyright.' },
+      { id: 'newsletter', label: 'Newsletter', previewTitle: 'Newsletter', previewDesc: 'Weekly blog updates from InnovateED.' },
+      { id: 'contact', label: 'Contact', previewTitle: 'Get Involved', previewDesc: 'Volunteer, partner, or bring a workshop to your school.' },
+    ];
+    return {
+      navItems: rawNav.map(n => ({ ...n, onClick: () => this.setPage(n.id), onMouseEnter: () => this.setState({ hoverNav: n.id }) })),
+      activePreview: rawNav.find(n => n.id === this.state.hoverNav) || null,
+      goHome: () => this.setPage('home'),
+      goAbout: () => this.setPage('about'),
+      goPrograms: () => this.setPage('programs'),
+      goResources: () => this.setPage('resources'),
+      goContact: () => this.setPage('contact'),
+      goNewsletter: () => this.setPage('newsletter'),
+      isHome: page === 'home',
+      isAbout: page === 'about',
+      isPrograms: page === 'programs',
+      isResources: page === 'resources',
+      isNewsletter: page === 'newsletter',
+      isContact: page === 'contact',
+      stats: [
+        { value: '120+', label: 'Students taught' },
+        { value: '7', label: 'Workshops run' },
+      ],
+      pillars: [
+        { icon: '01', title: 'Understand IP basics', desc: 'Patents, trademarks, copyright, and trade secrets explained in plain language.' },
+        { icon: '02', title: 'Protect your ideas', desc: 'Step-by-step guidance on documenting and pitching student inventions at fairs.' },
+        { icon: '03', title: 'Learn from attorneys', desc: 'In-person workshops with practicing patent attorneys and IP educators.' },
+      ],
+      team: [
+        { id: 'team-1', name: 'Akhil Kora', role: 'Co-Founder', placeholder: 'Photo: Akhil Kora' },
+        { id: 'team-2', name: 'Pranamya Bonu', role: 'Co-Founder', placeholder: 'Photo: Pranamya Bonu' },
+        { id: 'team-3', name: 'Laasya Gadiraju', role: 'Co-Founder', placeholder: 'Photo: Laasya Gadiraju' },
+        { id: 'team-4', name: 'Hrishi Kothapalli', role: 'Co-Founder', placeholder: 'Photo: Hrishi Kothapalli' },
+        { id: 'team-5', name: 'Suhith Soma', role: 'Co-Founder', placeholder: 'Photo: Suhith Soma' },
+      ],
+      programs: [
+        { level: 'Middle School', title: 'IP Basics Workshop', desc: 'A single-day introduction to what intellectual property is and why it matters.', duration: '1 month' },
+        { level: 'High School', title: 'Invent & Protect', desc: 'A semester elective covering patent, trademark, and copyright fundamentals with a capstone project.', duration: '1 month' },
+      ],
+      events: [
+        { date: 'Sep 12, 2026', title: 'IP 101 for Educators', desc: 'A free training for teachers who want to bring IP education into their classrooms.' },
+        { date: 'Oct 3, 2026', title: 'Student Inventor Showcase', desc: 'Regional showcase of student inventions with feedback from patent attorneys.' },
+      ],
+      resources: [
+        { icon: 'P', title: 'What Is a Patent?', desc: 'A plain-language guide to utility, design, and provisional patents.', tag: 'Guide · 5 min' },
+        { icon: 'TM', title: 'Trademarks 101', desc: 'How brand names, logos, and slogans get protected.', tag: 'Guide · 4 min' },
+        { icon: 'C', title: 'Copyright Basics', desc: 'What copyright covers and how it differs from patents.', tag: 'Guide · 4 min' },
+        { icon: 'F', title: 'Filing Your First Patent', desc: 'A step-by-step checklist for student inventors.', tag: 'Checklist · 8 min' },
+        { icon: 'S', title: 'IP for Science Fair Projects', desc: 'What to document before you present or publish your work.', tag: 'Guide · 6 min' },
+      ],
+      newsletterPosts: [
+        { date: 'Week of Jul 28, 2026', title: 'Summer program applications now open', excerpt: 'Middle and high school students can now apply for our fall workshop cohorts.' },
+        { date: 'Week of Jul 21, 2026', title: 'Student spotlight: a provisional patent at 16', excerpt: 'How one of our students filed a provisional patent for a science fair invention.' },
+        { date: 'Week of Jul 14, 2026', title: 'What changed in patent law this year', excerpt: 'A student-friendly recap of recent IP news and why it matters for young inventors.' },
+        { date: 'Week of Jul 7, 2026', title: 'New chapter launches in Austin, TX', excerpt: 'Our newest student-led chapter kicked off its first workshop series.' },
+      ],
+      contactWays: [
+        { icon: 'Ed', label: 'For educators', value: 'Bring a free workshop to your school' },
+        { icon: 'St', label: 'For students', value: 'Join a program or ask us a question' },
+        { icon: 'Ch', label: 'Start a chapter', value: 'Launch an InnovateED chapter in your community' },
+        { icon: 'Pt', label: 'For partners & donors', value: 'Support our work with time or funding' },
+      ],
+    };
+  }
+}
+
+</script>
+</body>
+</html>
